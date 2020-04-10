@@ -28,7 +28,7 @@ class simpleJDBC
 	// This is the url you must use for DB2.
 	//Note: This url may not valid now !
 	String url = "jdbc:db2://comp421.cs.mcgill.ca:50000/cs421";
-	Connection con = DriverManager.getConnection (url,your_userid,your_password) ;
+	Connection con = DriverManager.getConnection (url,"cs421g74", "Fshstix1!") ;
 	Statement statement = con.createStatement ( ) ;
 
 	// Creating a table
