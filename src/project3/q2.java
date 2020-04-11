@@ -88,11 +88,11 @@ public class q2 {
 					
 					//get cid input for item
 					Scanner in = new Scanner(System.in);
-					System.out.println("Enter inventory item name: ");
+					System.out.print("Enter inventory item name: ");
 			        String item = in.nextLine();
 			        
 					//get cid input for qty
-			        System.out.println("Enter desired quantity:");
+			        System.out.print("Enter desired quantity: ");
 			        int qty = in.nextInt();
 					
 			        //provide values for input parameters
@@ -111,9 +111,10 @@ public class q2 {
 				    System.out.println();
 					String vendor = rs.getString (4) ;//third col
 					String price = rs.getString (5).substring(0, rs.getString(5).length() - 4);//fourth col
-					System.out.println ("the lowest price for " + qty + " units of "+ item + " is $" + price + " from the vendor " + vendor);
+					System.out.println ("the lowest price for " + qty + " units of "+ item + " is $" + price + " from the vendor " + vendor + "\n");
 				    }
-				    System.out.println ("DONE\n");
+				    prepStatement1.close();
+				    prepStatement2.close();
 				} catch (SQLException e)
 				    {
 					sqlCode = e.getErrorCode(); // Get SQLCODE
@@ -136,7 +137,7 @@ public class q2 {
 							"GROUP BY co.mi_id\n" + 
 							"ORDER BY orderamt DESC";
 		//		    System.out.println (querySQL) ;//todo: delete this line later
-				    System.out.println("\nDishes ranked by popularity in the last 5 months:");
+				    System.out.println("\nMenu items ranked by popularity in the last 5 months:");
 				    java.sql.ResultSet rs = statement.executeQuery ( querySQL ) ;
 				    int num = 1;
 				    while ( rs.next ( ) ) {
@@ -144,7 +145,8 @@ public class q2 {
 				    System.out.println("#" + num++);
 					int menuid = rs.getInt ( 1 ) ;//first col
 					int orderamt = rs.getInt (2);//second col
-					System.out.println ("menu item id:  " + menuid);//should we output the item name instead?
+					System.out.println ("menu item id:  " + menuid);
+//					System.out.println("menu item name: "+ name);//should we output the item name instead?
 					System.out.println ("amount ordered:  " + orderamt);
 				    }
 				    System.out.println ("DONE");
@@ -185,7 +187,7 @@ public class q2 {
 					
 					//find top five most expensive menu items
 					String querySQL = "SELECT *FROM menuitem ORDER BY price DESC FETCH FIRST 5 ROWS ONLY";
-				    System.out.println("\nFive most expensive menu items:");
+				    System.out.println("\nFive most expensive menu items/prices after markup:");
 				    java.sql.ResultSet rs = statement.executeQuery ( querySQL ) ;
 				    int num = 1;
 				    while ( rs.next ( ) ) {
@@ -249,7 +251,7 @@ public class q2 {
         			preparedStatement.setString(1, phonenum);
         			preparedStatement.setTimestamp(2, starttime);
         			
-        			
+//        			1 Le Mezz                       20 Sean Roberts                                       5142129998 2020-01-01-07.00.00.000000 2020-01-01-08.47.00.000000
         			
         			//INSERT INTO reservation (customer_id,rname, table_num,name, phone_num, start_time, end_time) 
 //        			VALUES ( 168,'Le Mezz',4,'Maria Joe','514525474','2020-02-29-13.30.00.000000', '2020-02-29-14.23.00.000000')
@@ -274,7 +276,7 @@ public class q2 {
 					System.out.println ("customer name: " + name);
 					System.out.println("phone number: "+ phonenum);
 					System.out.println("table number: " + tablenum);
-					System.out.println("date and time of reservation: " + datestr +" "+ timestr);
+					System.out.println("date and time of reservation: " + datestr +" "+ timestr + "\n");
 				    }
 				    PreparedStatement update = con.prepareStatement("DELETE FROM reservation "
 				    		+ "WHERE phone_num = ? AND start_time = ?");
@@ -283,7 +285,8 @@ public class q2 {
         			update.setTimestamp(2, starttime);
 				    update.executeUpdate();//delete the rows	
 				    
-				    System.out.println ("DONE\n");
+				    update.close();
+				    
 				} catch (SQLException e)
 				    {
 					sqlCode = e.getErrorCode(); // Get SQLCODE
